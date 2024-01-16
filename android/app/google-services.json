@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "28851727754",
+    "project_id": "taskappfirebase-4fa90",
+    "storage_bucket": "taskappfirebase-4fa90.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:28851727754:android:f5ea68ab5cb3bd4c01ec73",
+        "android_client_info": {
+          "package_name": "com.example.taskappfirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJjFYWGzYyO3VvB8kzOAj_smBoLqkTR3E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
