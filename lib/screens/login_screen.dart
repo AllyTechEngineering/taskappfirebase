@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  final isValid = _formKey.currentState!.validate();
+                  // final isValid = _formKey.currentState!.validate();
                   _auth
                       .signInWithEmailAndPassword(
                           email: _emailController.text, password: _passwordController.text)

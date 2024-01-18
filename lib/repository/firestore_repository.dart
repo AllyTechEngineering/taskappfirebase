@@ -24,6 +24,7 @@ class FirestoreRepository {
       final data = await FirebaseFirestore.instance.collection(GetStorage().read('email')).get();
       for (var task in data.docs) {
         taskList.add(Task.fromMap(task.data()));
+        debugPrint('in repository checking get all for loop: $taskList');
       }
       return taskList;
     } catch (e) {
@@ -40,4 +41,27 @@ class FirestoreRepository {
       throw Exception(e.toString());
     }
   } //update
+
+  // Delete Tasks
+  static Future<void> delete({Task? task}) async {
+    try {
+      final data = FirebaseFirestore.instance.collection(GetStorage().read('email'));
+      data.doc(task!.id).delete();
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  } //delete
+
+  // Delete All Tasks
+  static Future<void> deleteAllRemovedTasks({List<Task>? taskList}) async {
+    try {
+      final data = FirebaseFirestore.instance.collection(GetStorage().read('email'));
+      for (var task in taskList!) {
+        data.doc(task.id).delete();
+        debugPrint('Doc deleted = ${data.doc(task.id)}');
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  } //delete all
 } //class FirststoreRepository

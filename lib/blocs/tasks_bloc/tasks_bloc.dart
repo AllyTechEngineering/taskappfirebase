@@ -59,26 +59,32 @@ class TasksBloc extends Bloc<TasksEvent, TasksState> {
     await FirestoreRepository.update(task: updateTask);
   }
 
-  void _onRemoveTask(RemoveTask event, Emitter<TasksState> emit) {}
-
-  void _onDeleteTask(DeleteTask event, Emitter<TasksState> emit) {}
+  void _onRemoveTask(RemoveTask event, Emitter<TasksState> emit) async {
+    Task removedTask = event.task.copyWith(isDeleted: true);
+    await FirestoreRepository.update(task: removedTask);
+  }
 
   void _onMarkFavoriteOrUnfavoriteTask(
-      MarkFavoriteOrUnfavoriteTask event, Emitter<TasksState> emit) {}
+      MarkFavoriteOrUnfavoriteTask event, Emitter<TasksState> emit) async {
+    Task task = event.task.copyWith(isFavorite: !event.task.isFavorite!);
+    await FirestoreRepository.update(task: task);
+  }
 
-  void _onEditTask(EditTask event, Emitter<TasksState> emit) {}
+  void _onRestoreTask(RestoreTask event, Emitter<TasksState> emit) async {
+    Task restoreTask = event.task.copyWith(
+        isDeleted: false, isDone: false, date: DateTime.now().toString(), isFavorite: false);
+    await FirestoreRepository.update(task: restoreTask);
+  }
 
-  void _onRestoreTask(RestoreTask event, Emitter<TasksState> emit) {}
+  void _onDeleteTask(DeleteTask event, Emitter<TasksState> emit) async {
+    await FirestoreRepository.delete(task: event.task);
+  }
 
-  void _onDeleteAllTask(DeleteAllTasks event, Emitter<TasksState> emit) {}
+  void _onDeleteAllTask(DeleteAllTasks event, Emitter<TasksState> emit) async {
+    await FirestoreRepository.deleteAllRemovedTasks(taskList: state.removedTasks);
+  }
 
-  // @override
-  // TasksState? fromJson(Map<String, dynamic> json) {
-  //   return TasksState.fromMap(json);
-  // }
-  //
-  // @override
-  // Map<String, dynamic>? toJson(TasksState state) {
-  //   return state.toMap();
-  // }
+  void _onEditTask(EditTask event, Emitter<TasksState> emit) async {
+    await FirestoreRepository.update(task: event.newTask);
+  }
 }

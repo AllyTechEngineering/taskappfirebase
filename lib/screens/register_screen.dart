@@ -66,7 +66,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                final isValid = _formKey.currentState!.validate();
+                // final isValid = _formKey.currentState!.validate();
                 _auth
                     .createUserWithEmailAndPassword(
                         email: _emailController.text, password: _passwordController.text)

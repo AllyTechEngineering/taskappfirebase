@@ -25,9 +25,10 @@ class RecycleBin extends StatelessWidget {
                               icon: const Icon(Icons.delete_forever),
                               label: const Text('Delete all tasks'),
                             ),
-                            onTap: () => context
-                                .read<TasksBloc>()
-                                .add(DeleteAllTasks())),
+                            onTap: () => {
+                                  context.read<TasksBloc>().add(DeleteAllTasks()),
+                                  context.read<TasksBloc>().add(GetAllTasks()),
+                                }),
                       ])
             ],
           ),

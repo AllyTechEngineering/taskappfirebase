@@ -23,6 +23,7 @@ class _TabsScreenState extends State<TabsScreen> {
   ];
   @override
   void initState() {
+    debugPrint('Checking the tabs_screen to see when initState is being called');
     context.read<TasksBloc>().add(GetAllTasks());
     super.initState();
   }

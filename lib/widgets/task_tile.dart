@@ -14,10 +14,16 @@ class TaskTile extends StatelessWidget {
 
   final Task task;
 
-  void _removeOrDeleteTask(BuildContext ctx, Task task) {
+  void _removeOrDeleteTask(BuildContext context, Task task) {
     task.isDeleted!
-        ? ctx.read<TasksBloc>().add(DeleteTask(task: task))
-        : ctx.read<TasksBloc>().add(RemoveTask(task: task));
+        ? {
+            context.read<TasksBloc>().add(DeleteTask(task: task)),
+            context.read<TasksBloc>().add(GetAllTasks()),
+          }
+        : {
+            context.read<TasksBloc>().add(RemoveTask(task: task)),
+            context.read<TasksBloc>().add(GetAllTasks())
+          };
   }
 
   void _editTask(BuildContext context) {
@@ -83,17 +89,20 @@ class TaskTile extends StatelessWidget {
                     : null,
               ),
               PopupMenu(
-                task: task,
-                cancelOrDeleteCallback: () => _removeOrDeleteTask(context, task),
-                likeOrDislikeCallback: () => context.read<TasksBloc>().add(
-                      MarkFavoriteOrUnfavoriteTask(task: task),
-                    ),
-                editTaskCallback: () {
-                  Navigator.of(context).pop();
-                  _editTask(context);
-                },
-                restoreTaskCallback: () => context.read<TasksBloc>().add(RestoreTask(task: task)),
-              ),
+                  task: task,
+                  cancelOrDeleteCallback: () => _removeOrDeleteTask(context, task),
+                  likeOrDislikeCallback: () => {
+                        context.read<TasksBloc>().add(MarkFavoriteOrUnfavoriteTask(task: task)),
+                        context.read<TasksBloc>().add(GetAllTasks()),
+                      },
+                  editTaskCallback: () {
+                    Navigator.of(context).pop();
+                    _editTask(context);
+                  },
+                  restoreTaskCallback: () => {
+                        context.read<TasksBloc>().add(RestoreTask(task: task)),
+                        context.read<TasksBloc>().add(GetAllTasks()),
+                      }),
             ],
           ),
         ],
